@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <title>Sumup</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Brython -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython.min.js">
+    </script>
+</head>
+
+<body onload="brython()">
+
+
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 10px">
+            <a class="navbar-brand" href="/">Sumup</a>
+        </nav>
+
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">R$</span>
+            </div>
+            <input id="valor" type="number" class="form-control" placeholder="0,00" aria-label="Username"
+                aria-describedby="basic-addon1">
+        </div>
+        <p id='zone'> </p>
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Parcelas</th>
+                    <th scope="col">Valor</th>
+                </tr>
+            </thead>
+            <tbody id="result_table">
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+
+    <script type="text/python">
+        from browser import document, alert, bind
+        from browser.html import TABLE, TR, TH, TD 
+
+        input = document["valor"]
+
+        juros = {
+            'Débito': 1.9,
+            '1': 4.6,
+            '2': 6.1,
+            '3': 7.6,
+            '4': 9.1,
+            '5': 10.6,
+            '6': 12.1,
+            '7': 13.6,
+            '8': 15.1,
+            '9': 16.6,
+            '10': 18.1,
+            '11': 19.6,
+            '12': 21.1
+        }
+        
+        
+        @bind(input, "input")
+        def preencher_table(ev): 
+
+            table = document['result_table']
+            table.clear()
+
+            str_valor = document['valor'].value
+            print(str_valor)
+            
+            if str_valor == '':
+                valor = 0
+            else:
+                valor = round(float(str_valor), 2)
+            
+            print(valor)
+
+            for parcela, juro in juros.items():
+                juro0 = (100 - juro) / 100
+                valor_juro =  round(juro0 * valor, 2)
+                table <= TR(
+                    TD(parcela)+TD(valor_juro)
+                )
+    </script>
+
+</body>
+</html>

@@ -92,10 +92,17 @@
 
             for parcela, juro in juros.items():
                 juro0 = (100 - juro) / 100
-                valor_juro =  round(juro0 * valor, 2)
-                table <= TR(
-                    TD(parcela)+TD(valor_juro)
-                )
+                valor_recebido =  round(juro0 * valor, 2)
+                if parcela == 'Débito':
+                    table <= TR(
+                        TD(f'<strong>{parcela}</strong>')+TD(valor_recebido)
+                    )
+                else:
+                    valor_parcela = valor/int(parcela)
+                    table <= TR(
+                        TD(f'<strong>({parcela})</strong> x {round(valor_parcela, 2)}')+TD(valor_recebido)
+                    )
+
     </script>
 
 </body>
